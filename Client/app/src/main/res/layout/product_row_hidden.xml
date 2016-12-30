@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingBottom="10dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="5dp"
+    android:paddingTop="10dp"
+    android:weightSum="1">
+
+    <ImageView
+        android:id="@+id/product_image"
+        android:layout_width="70dp"
+        android:src="@mipmap/ic_launcher"
+        android:layout_height="70dp"
+        android:layout_gravity="left"
+        android:layout_marginRight="6dp" />
+
+    <LinearLayout
+        android:layout_height="68dp"
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical"
+        android:layout_width="match_parent">
+
+        <TextView
+            android:id="@+id/product_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="product Title"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/bg_register"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_height="match_parent"
+                android:layout_width="159dp">
+
+                <TextView
+                    android:id="@+id/old_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="old price"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/input_login_hint"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/new_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="new price"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:text="amount"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/product_amount"
+                    android:layout_width="match_parent"
+                    android:textSize="10sp"
+                    android:layout_marginTop="20dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
