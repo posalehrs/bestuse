@@ -32,6 +32,9 @@ public class Product implements Serializable {
         this.amount = amount;
     }
 
+    public Product() {
+    }
+
     public String getName() {
         return name;
     }

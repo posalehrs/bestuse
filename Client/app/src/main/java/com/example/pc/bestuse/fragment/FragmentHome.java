@@ -68,8 +68,28 @@ public class FragmentHome extends Fragment {
             }
         }));
 
+        Request req=new Request();
+        switch (FragmentCategory.category){
+            case 0:
+                req.setCategory("Kẹo");
+                FragmentCategory.category=-1;
+                break;
+            case 1:
+                req.setCategory("Sữa");
+                FragmentCategory.category=-1;
+                break;
+            case 2:
+                req.setCategory("Thực phẩm khô");
+                FragmentCategory.category=-1;
+                break;
+            case 3:
+                req.setCategory("Thực phẩm tươi");
+                FragmentCategory.category=-1;
+                break;
+        }
+
         InterfaceProduct apiService= ApiProduct.getClient().create(InterfaceProduct.class);
-        Call<List<Product>> call=apiService.getListProduct(new Request(),"");
+        Call<List<Product>> call=apiService.getListProduct(req,"");
         call.enqueue(new Callback<List<Product>>() {
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {

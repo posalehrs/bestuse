@@ -61,12 +61,14 @@ public class EditUserActivity extends AppCompatActivity {
     @BindView(R.id.edt_phone)
     EditText phone;
 
-
+    boolean changeImage=false;
 
     private int PICK_IMAGE_REQUEST = 1;
 
     private Bitmap bitmap;
     Uri filePath;
+
+    User user;
 
 
     @Override
@@ -84,7 +86,7 @@ public class EditUserActivity extends AppCompatActivity {
 
         Intent callerIntent=getIntent();
 
-        User user = (User) callerIntent.getSerializableExtra("user");
+        user = (User) callerIntent.getSerializableExtra("user");
 
         name.setText(user.getName());
         email.setText(user.getEmail());
@@ -117,35 +119,42 @@ public class EditUserActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_save)
     void onClickSave(){
-//        InterfaceImage apiService= ServiceGenerator.createService(InterfaceImage.class);
-//
-//        File file = new File(getPathFromURI(getApplicationContext(),filePath));
-//
-//
-//        RequestBody requestFile =
-//                RequestBody.create(MediaType.parse("multipart/form-data"), file);
-//        MultipartBody.Part body =
-//                MultipartBody.Part.createFormData("picture", file.getName(), requestFile);
-//        String descriptionString = "hello, this is description speaking";
-//        RequestBody description =
-//                RequestBody.create(
-//                        MediaType.parse("multipart/form-data"), descriptionString);
-//        Call<ResponseBody> call = apiService.upload(description,body);
-//        call.enqueue(new Callback<ResponseBody>() {
-//            @Override
-//            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-//
-//                Log.d("hehe",response.body().toString());
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ResponseBody> call, Throwable t) {
-//                Log.d("hehe","up file fail");
-//
-//            }
-//        });
+        if(changeImage) {
+            InterfaceImage apiService = ServiceGenerator.createService(InterfaceImage.class);
 
-        User us=new User(name.getText().toString(),password.getText().toString(),email.getText().toString(),address.getText().toString(),phone.getText().toString(),"url1.jpg");
+            final File file = new File(getPathFromURI(getApplicationContext(), filePath));
+
+
+            RequestBody requestFile =
+                    RequestBody.create(MediaType.parse("multipart/form-data"), file);
+            MultipartBody.Part body =
+                    MultipartBody.Part.createFormData("picture", file.getName(), requestFile);
+            String descriptionString = "hello, this is description speaking";
+            RequestBody description =
+                    RequestBody.create(
+                            MediaType.parse("multipart/form-data"), descriptionString);
+            Call<ResponseBody> call = apiService.upload(description, body);
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    user.setImage(file.getName());
+                    updateUser();
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    Log.d("hehe", "up file fail");
+                }
+            });
+        }else {
+            updateUser();
+        }
+
+    }
+
+    public void updateUser(){
+
+        User us=new User(name.getText().toString(),password.getText().toString(),email.getText().toString(),address.getText().toString(),phone.getText().toString(),user.getImage());
         SharedPreferences pre=getSharedPreferences("token", MODE_PRIVATE);
 
         InterfaceUser apiService = ApiUser.getClient().create(InterfaceUser.class);
@@ -153,7 +162,7 @@ public class EditUserActivity extends AppCompatActivity {
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                Log.d("hehe","ok");
+                finish();
             }
 
             @Override
@@ -167,8 +176,8 @@ public class EditUserActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            changeImage=true;
             filePath = data.getData();
-            Log.d("hehe",filePath.toString());
             try {
                 //Getting the Bitmap from Gallery
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);

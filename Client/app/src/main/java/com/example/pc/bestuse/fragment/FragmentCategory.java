@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,8 @@ public class FragmentCategory extends Fragment {
     @BindView(R.id.dashboard_grid)
     GridView dashboard_grid;
 
+    public static int category=-1;
+
     static final LauncherIcon[] ICONS = {
             new LauncherIcon(R.drawable.cake, "Kẹo", "cake.jpg"),
             new LauncherIcon(R.drawable.milk, "Sữa", "milk.png"),
@@ -53,10 +56,8 @@ public class FragmentCategory extends Fragment {
 
     @OnItemClick(R.id.dashboard_grid)
     public void onClickGridItem(AdapterView<?> parent, View v, int position, long id){
-        SharedPreferences pre=this.getActivity().getSharedPreferences("token", MODE_PRIVATE);
-        SharedPreferences.Editor editor=pre.edit();
-        editor.clear();
-        editor.commit();
+        category=position;
+
 
         Intent intent = new Intent(getContext(), MainActivity.class);
         startActivity(intent);

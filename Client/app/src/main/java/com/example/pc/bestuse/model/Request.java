@@ -3,6 +3,15 @@ package com.example.pc.bestuse.model;
 public class Request {
     String _id;
     Integer selling;
+    String category;
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
 
     public Request() {
     }

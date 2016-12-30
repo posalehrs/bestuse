@@ -78,22 +78,13 @@ app.post('/user-update', function (req, res) {
         var token = req.headers['token'];
         var decoded = jwt.decode(token, 'superSecret');
 
-        var us = new User();
-        us.name = req.body.name;
-        us.password = req.body.password;
-        us.email = req.body.email;
-        us.address=req.body.address;
-        us.number_phone=req.body.number_phone;
-        us.image=req.body.image;
-
-        User.update({_id: decoded._id}, us,{upsert:true}, function (err, user) {
+        User.update({_id: decoded._id}, {'name':req.body.name,'password':req.body.password,'email':req.body.email,'address':req.body.address,'number_phone':req.body.number_phone,'image':req.body.image}, function (err, user) {
             if (err) {
                 return handleError(err);
             }
             res.status(200).send(user);
         });
-    }
-);
+    });
 app.post('/product-create', function (req, res) {
     var token = req.headers['token'];
     var decoded = jwt.decode(token, 'superSecret');
@@ -143,22 +134,23 @@ app.post('/product-list', function (req, res) {
     var token = req.headers['token'];
 
     var query={};
-
+    //fragment person
     if(token) {
         var decoded = jwt.decode(token, 'superSecret');
         query['_user']=decoded._id;
         if(req.body.selling!=null){
             query['selling']=req.body.selling;
         }
+    }else{
+        query['selling']=1;
     }
-    // if(req.body.user_id){
-    //     query['']
-    // }
-    // query['_user']="584abe7e4671ae0b683f1252";
+    if(req.body.category!=null){
+        query['category']=req.body.category;
+    }
     Product.find(query, {}, {
         // "skip":0,
         // "limit": 20,
-        // "sort":{up_date:1}
+        "sort":{up_date:-1}
     }, function (err, products) {
         if (err) {
             return handleError(err);
@@ -174,6 +166,17 @@ app.post('/product-detail', function (req, res) {
         }
         res.status(200).send(product);
     }).populate("_user");
+
+});
+app.post('/update-product', function (req, res) {
+    Product.update({_id: req.body._id}, {'selling': 0}, function (err, product) {
+            if (err) {
+                return handleError(err);
+            }
+            res.status(200).send(product);
+        }
+
+    );
 
 });
 app.post('/upload', function(req, res) {

@@ -16,9 +16,13 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.Switch;
+import android.widget.Toast;
 
 import com.example.pc.bestuse.model.Product;
 import com.example.pc.bestuse.rest.ApiProduct;
@@ -28,11 +32,15 @@ import com.example.pc.bestuse.rest.ServiceGenerator;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnItemClick;
+import butterknife.OnItemSelected;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -55,14 +63,17 @@ public class AddProductActivity extends AppCompatActivity {
     EditText edtNewPrice;
     @BindView(R.id.edt_amount)
     EditText edtAmount;
-    @BindView(R.id.edt_category)
-    EditText edtCategory;
+//    @BindView(R.id.edt_category)
+//    EditText edtCategory;
     @BindView(R.id.edt_des)
     EditText edtDes;
     @BindView(R.id.edt_address)
     EditText edtAddress;
     @BindView(R.id.edt_exp)
     EditText edtExp;
+
+    @BindView(R.id.spinner_category)
+    Spinner spinnerCategory;
 
     @BindView(R.id.btn_add_product)
     Button btnAddProduct;
@@ -74,6 +85,8 @@ public class AddProductActivity extends AppCompatActivity {
 
     private Bitmap bitmap;
     Uri filePath;
+
+    String category;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +101,21 @@ public class AddProductActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+
+        List<String> categories = new ArrayList<String>();
+        categories.add("Kẹo");
+        categories.add("Sữa");
+        categories.add("Thực phẩm khô");
+        categories.add("Thực phẩm tươi");
+
+        // Creating adapter for spinner
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories);
+
+        // Drop down layout style - list view with radio button
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // attaching data adapter to spinner
+        spinnerCategory.setAdapter(dataAdapter);
     }
 
     @OnClick(R.id.btn_up_image)
@@ -143,10 +171,8 @@ public class AddProductActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseBody> callImage, Response<ResponseBody> response) {
 
-                Log.d("hehe", file.getName());
-
                 SharedPreferences pre=getSharedPreferences("token", MODE_PRIVATE);
-                Product product=new Product(edtName.getText().toString(),edtDes.getText().toString(),file.getName(),edtCategory.getText().toString(),edtAddress.getText().toString(),Integer.parseInt(edtOldPrice.getText().toString()),Integer.parseInt(edtNewPrice.getText().toString()),Integer.parseInt(edtExp.getText().toString()),new Date(),Integer.parseInt(edtAmount.getText().toString()));
+                Product product=new Product(edtName.getText().toString(),edtDes.getText().toString(),file.getName(),category,edtAddress.getText().toString(),Integer.parseInt(edtOldPrice.getText().toString()),Integer.parseInt(edtNewPrice.getText().toString()),Integer.parseInt(edtExp.getText().toString()),new Date(),Integer.parseInt(edtAmount.getText().toString()));
 
                 InterfaceProduct apiService= ApiProduct.getClient().create(InterfaceProduct.class);
                 Call<Product> call=apiService.productCreate(product,pre.getString("token",null));
@@ -154,7 +180,11 @@ public class AddProductActivity extends AppCompatActivity {
                 call.enqueue(new Callback<Product>() {
                     @Override
                     public void onResponse(Call<Product> call, Response<Product> response) {
-                        Log.d("hehe",response.body().toString());
+                        Toast.makeText(AddProductActivity.this, "Đăng thành công",   Toast.LENGTH_LONG).show();
+
+                        Intent intent = new Intent(AddProductActivity.this, MainActivity.class);
+
+                        startActivity(intent);
                     }
 
                     @Override
@@ -170,6 +200,25 @@ public class AddProductActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @OnItemSelected(R.id.spinner_category)
+    void OnItemSelectSpinner(int position){
+        switch(position){
+            case 0:
+                category="Kẹo";
+                break;
+            case 1:
+                category="Sữa";
+                break;
+            case 2:
+                category="Thực phẩm khô";
+                break;
+            case 3:
+                category="Thực phẩm tươi";
+                break;
+
+        }
     }
 
 
