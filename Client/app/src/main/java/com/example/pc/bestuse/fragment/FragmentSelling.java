@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.pc.bestuse.AddProductActivity;
+import com.example.pc.bestuse.EditProductActivity;
 import com.example.pc.bestuse.R;
 import com.example.pc.bestuse.adapter.ProductsSellingAdapter;
 import com.example.pc.bestuse.adapter.ProductsSellingAdapter;
@@ -45,8 +46,8 @@ public class FragmentSelling extends Fragment {
     private Unbinder unbinder;
     View view;
 
-    private List<Product> productList = new ArrayList<>();
-    private ProductsSellingAdapter mAdapter;
+    public static List<Product> productList = new ArrayList<>();
+    public static ProductsSellingAdapter mAdapter;
 
     @BindView(R.id.recycler_view_selling)
     RecyclerView recyclerView;
@@ -76,42 +77,12 @@ public class FragmentSelling extends Fragment {
             public void onClick(View view, int position) {
                 pos=position;
 
+                Intent intent = new Intent(getContext(), EditProductActivity.class);
+                intent.putExtra("product", productList.get(position));
+                intent.putExtra("position", position);
+                startActivity(intent);
+
                 AlertDialog.Builder b=new AlertDialog.Builder(getContext());
-
-                b.setTitle("Hỏi?");
-                b.setMessage("Bạn có muốn ẩn tin này?");
-                b.setPositiveButton("Có", new DialogInterface. OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Product p=new Product();
-                        p.setSelling(0);
-                        p.set_id(productList.get(pos).get_id().toString());
-                        InterfaceProduct apiService= ApiProduct.getClient().create(InterfaceProduct.class);
-                        Call<Product> call=apiService.updateProduct(p,pre.getString("token",null));
-                        call.enqueue(new Callback<Product>() {
-                            @Override
-                            public void onResponse(Call<Product> call, Response<Product> response) {
-                                Toast.makeText(getContext(), "Tin đã được ẩn", Toast.LENGTH_LONG).show();
-                                productList.remove(pos);
-                                mAdapter.notifyDataSetChanged();
-
-                            }
-
-                            @Override
-                            public void onFailure(Call<Product> call, Throwable t) {
-
-                            }
-                        });
-
-                    }});
-                b.setNegativeButton("Không", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-
-                });
-                b.create().show();
             }
 
             @Override

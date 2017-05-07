@@ -45,11 +45,11 @@
                 android:layout_height="150dp" />
 
             <Button
-                android:text="Chọn hình"
+                android:id="@+id/btn_up_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/btn_up_image"
-                android:layout_marginLeft="110dp"
+                android:layout_marginLeft="140dp"
+                android:text="Chọn hình"
                 android:textSize="12sp" />
 
             <LinearLayout
@@ -165,6 +165,7 @@
                 android:id="@+id/btn_save"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="110dp"
                 android:background="@color/btn_login_bg"
                 android:text="Lưu"
                 android:textColor="@color/btn_login" />

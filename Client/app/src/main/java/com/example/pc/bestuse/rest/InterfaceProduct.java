@@ -24,6 +24,9 @@ public interface InterfaceProduct {
     @POST("product-list")
     Call<List<Product>> getListProduct(@Body Request req,@Header("token") String token);
 
+    @POST("product-list-favorite")
+    Call<List<Product>> getListProductFavorite(@Body Request req,@Header("token") String token);
+
     @POST("update-product")
     Call<Product> updateProduct(@Body Product p,@Header("token") String token);
 

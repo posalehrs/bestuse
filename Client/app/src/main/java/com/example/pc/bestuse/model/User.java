@@ -10,6 +10,16 @@ public class User implements Serializable {
     String number_phone;
     String image;
 
+    public Object getProduct() {
+        return product;
+    }
+
+    public void setProduct(Object product) {
+        this.product = product;
+    }
+
+    Object product;
+
     public User(String name, String password, String email, String address, String number_phone, String image) {
         this.name = name;
         this.password = password;

@@ -35,13 +35,18 @@ public class FragmentPersonLogin extends Fragment {
         mTabHost.setup(getActivity(), getChildFragmentManager(), R.layout.fragment_person_login);
         Bundle arg1 = new Bundle();
         arg1.putInt("Arg for Frag1", 1);
-        mTabHost.addTab(mTabHost.newTabSpec("Tab1").setIndicator("Đang bán"),
+        mTabHost.addTab(mTabHost.newTabSpec("Tab1").setIndicator("Bán"),
                 FragmentSelling.class, arg1);
 
         Bundle arg2 = new Bundle();
         arg2.putInt("Arg for Frag2", 2);
         mTabHost.addTab(mTabHost.newTabSpec("Tab2").setIndicator("Đã ẩn"),
                 FragmentHidden.class, arg2);
+
+        Bundle arg4 = new Bundle();
+        arg4.putInt("Arg for Frag4", 4);
+        mTabHost.addTab(mTabHost.newTabSpec("Tab4").setIndicator("Favorite"),
+                FragmentFovorite.class, arg4);
 
         Bundle arg3 = new Bundle();
         arg2.putInt("Arg for Frag3", 3);

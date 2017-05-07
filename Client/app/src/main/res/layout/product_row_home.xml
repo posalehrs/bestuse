@@ -18,10 +18,10 @@
         android:layout_marginRight="6dp" />
 
     <LinearLayout
-        android:layout_height="68dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:orientation="vertical"
-        android:layout_width="match_parent">
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/product_name"
@@ -34,14 +34,14 @@
             android:textSize="14sp" />
 
         <LinearLayout
-            android:orientation="horizontal"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_width="match_parent">
+            android:orientation="horizontal">
 
             <LinearLayout
-                android:orientation="vertical"
+                android:layout_width="159dp"
                 android:layout_height="match_parent"
-                android:layout_width="159dp">
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/old_price"
@@ -64,33 +64,34 @@
                     android:textSize="12sp" />
 
                 <TextView
-                    android:text="date_up"
+                    android:id="@+id/product_update_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/product_update_date"
-                    android:textSize="10sp"
-                    android:textColor="@color/dividerColor" />
+                    android:layout_marginBottom="2dp"
+                    android:text="date_up"
+                    android:textColor="@color/dividerColor"
+                    android:textSize="10sp" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
                 <TextView
-                    android:text="amount"
-                    android:layout_height="wrap_content"
                     android:id="@+id/product_amount"
                     android:layout_width="match_parent"
-                    android:textSize="10sp"
-                    android:layout_marginTop="20dp" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="amount"
+                    android:textSize="10sp" />
 
                 <TextView
-                    android:text="expiration date"
+                    android:id="@+id/product_expiration_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/product_expiration_date"
+                    android:text="expiration date"
                     android:textSize="10sp" />
 
             </LinearLayout>

@@ -116,6 +116,24 @@ app.post('/product-create', function (req, res) {
         });
     });
 });
+
+app.post('/add-favorite', function (req, res) {
+    var token = req.headers['token'];
+    var decoded = jwt.decode(token, 'superSecret');
+
+    Product.findById(req.body._id, function (err, product) {
+        User.update({_id: decoded._id}, {$push:{'_product': [product]}}, function (err, user) {
+                if (err) {
+                    return handleError(err);
+                }
+                res.status(200).send(user);
+            }
+
+        );
+    });
+
+});
+
 app.get('/product-list', function (req, res) {
 var query={};
     Product.find(query, {}, {
@@ -159,6 +177,32 @@ app.post('/product-list', function (req, res) {
     });
 
 });
+app.post('/product-list-favorite', function (req, res) {
+    var token = req.headers['token'];
+    var decoded = jwt.decode(token, 'superSecret');
+    User.findById(decoded._id,function (err,user) {
+        if (err) {
+            return handleError(err);
+        }
+
+        var query = {};
+        query['selling']=1;
+        query['_id'] = { $in :  user._product  };
+        Product.find(query, {}, {
+            // "skip":0,
+            // "limit": 20,
+            // "sort":{up_date:-1}
+        }, function (err, products) {
+            if (err) {
+                return handleError(err);
+            }
+            res.status(200).send(products);
+        });
+
+    });
+
+
+});
 app.post('/product-detail', function (req, res) {
     Product.findById(req.body._id, function (err, product) {
         if (err) {
@@ -169,7 +213,7 @@ app.post('/product-detail', function (req, res) {
 
 });
 app.post('/update-product', function (req, res) {
-    Product.update({_id: req.body._id}, {'selling': 0}, function (err, product) {
+    Product.update({_id: req.body._id}, {'selling': req.body.selling}, function (err, product) {
             if (err) {
                 return handleError(err);
             }

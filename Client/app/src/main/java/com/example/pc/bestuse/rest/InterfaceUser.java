@@ -1,5 +1,6 @@
 package com.example.pc.bestuse.rest;
 
+import com.example.pc.bestuse.model.Product;
 import com.example.pc.bestuse.model.Request;
 import com.example.pc.bestuse.model.User;
 
@@ -19,8 +20,14 @@ public interface InterfaceUser {
     @POST("get-user")
     Call<User> getUser(@Body Request _id,@Header("token") String token);
 
+//    @POST("update-product")
+//    Call<Product> updateProduct(@Body Product p,@Header("token") String token);
+
     @POST("user-update")
     Call<User> updateUser(@Body User user,@Header("token") String token);
+
+    @POST("add-favorite")
+    Call<User> addFavorite(@Body Product product, @Header("token") String token);
 
 
 }

@@ -34,8 +34,8 @@ public class FragmentHome extends Fragment {
     private Unbinder unbinder;
     View view;
 
-    private List<Product> productList = new ArrayList<>();
-    private ProductsHomeAdapter mAdapter;
+    public static List<Product> productList = new ArrayList<>();
+    public static ProductsHomeAdapter mAdapter;
 
     @BindView(R.id.recycler_view_home)
     RecyclerView recyclerView;

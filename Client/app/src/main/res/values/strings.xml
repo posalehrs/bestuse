@@ -34,5 +34,6 @@
     <string name="dry_foog">Thực phẩm khô</string>
     <string name="title_activity_detail">Chi tiết</string>
     <string name="title_activity_edit_user">Sửa thông tin cá nhân</string>
+    <string name="title_activity_edit_product">Sửa thông tin sản phẩm</string>
     <string name="title_activity_add_product">Đăng bán sản phẩm</string>
 </resources>
